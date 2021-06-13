@@ -429,6 +429,10 @@
     bottom: 0;
     width: 100%;
 
+    @media screen and (min-width: 1024px) {
+      display: none;
+    }
+
     .products {
       p {
         float: left;
