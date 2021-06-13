@@ -1,0 +1,1 @@
+window.__NUXT__=(function(a){return {staticAssetsBase:"\u002Fwine-shop\u002F_nuxt\u002Fstatic\u002F1623605642",layout:"default",error:a,state:{items:[],cart:[],tags:[],filteredProducts:[],checkoutStatus:a,fetchingData:false},serverRendered:true,routePath:"\u002F",config:{_app:{basePath:"\u002Fwine-shop\u002F",assetsPath:"\u002Fwine-shop\u002F_nuxt\u002F",cdnURL:a}}}}(null));
