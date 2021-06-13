@@ -1,7 +1,30 @@
 <template>
   <div>
+    <div class="mobile-card">
+      <div class="grid-x products">
+        <div class="cell products-details">
+          <div class="grid-x">
+            <div class="cell small-8 cart-total-items">
+              <p class="case-items">
+                Bottles: <strong>{{totalCartItems.bottleItems || 0}}</strong>
+              </p>
+              <p class="bottle-items">
+                Cases: <strong>{{totalCartItems.caseItems || 0}}</strong>
+              </p>
+              <p class="bottle-items">
+                Total: <strong>{{cartTotal | currency}}</strong>
+              </p>
+            </div>
+            <div class="cell small-4 actions">
+              <button class="button--dark" @click="checkout">Checkout</button>
+              <button class="button--grey" @click="emptyCart">Empty Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <product-details v-if="showDetails" :details="details"
-             @closeModal="showDetails = false"/>
+                     @closeModal="showDetails = false"/>
     <div v-if="!checkingOut" class="container">
       <div class="heading text-center">
         <h3>Wine Shop</h3>
@@ -10,12 +33,13 @@
       <div class="grid-x filter grid-margin-x">
         <div class="cell medium-3 large-3 filter-card">
           <div class="grid-x grid-padding-x filter-card-heading">
-            <div class="cell small-4 large-6 text-left">Show me</div>
-            <div class="cell small-4 large-6 text-right">Show all</div>
+            <div class="cell small-6 medium-6 large-6 text-left">Filters</div>
+            <div v-if="keywords.length > 0" @click="keywords = []" class="cell small-6 medium-6 large-6 text-right">Clear</div>
           </div>
           <div class="grid-x grid-margin-x filter-card-items">
             <div @click="filterItem(tag)" :key="index" v-for="(tag, index) in productTags"
-                 class="cell small-text-center small-4 medium-4 large-4 filter-card-item">
+                 :class="{filter_selected:filterSelected(tag)}"
+                 class="cell cursor-pointer small-text-center small-4 medium-4 large-4 filter-card-item">
               {{tag}}
             </div>
           </div>
@@ -65,7 +89,7 @@
           <placeholder/>
         </div>
         <div v-if="!fetchingData" v-for="(product, index) in products" :key="index"
-             class="cell small-12 medium-4 large-4 display-item">
+             class="cell small-12 medium-6 large-4 display-item">
           <div class="grid-x">
             <div class="cell small-3 medium-3 large-3 image">
               <img class="" :src="`/api/wine-bottles/`+product.image" alt="">
@@ -148,7 +172,7 @@
         productTags: 'productTags',
         cartTotal: 'cartTotal',
         totalCartItems: 'totalCartItems'
-      })
+      }),
     },
     methods: {
       fetchData() {
@@ -206,6 +230,9 @@
           description: product.details
         }
         this.showDetails = true
+      },
+      filterSelected(tag){
+        return this.keywords.includes(tag);
       }
     },
     mounted() {
@@ -216,9 +243,20 @@
 <style lang="scss" scoped>
   .container {
     padding: 25px 70px;
+    @media screen and (max-width: 1023px) {
+      padding: 25px 30px;
+    }
+    .domain-name{
+      line-height: .3;
+      margin-bottom: 1.2rem;
+    }
 
     .filter {
       .checkout-card {
+        @media screen and (max-width: 1023px) {
+          display: none;
+        }
+
         .details {
           display: flex;
           justify-content: center;
@@ -281,6 +319,10 @@
           .filter-card-item {
             margin: 10px;
             background: #d2d2d2cf;
+          }
+          .filter_selected{
+            background: #000;
+            color: #fff;
           }
         }
       }
@@ -376,5 +418,46 @@
         }
       }
     }
+  }
+
+  .mobile-card {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #e6e6e6;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+    .products {
+      p {
+        float: left;
+        width: 100%;
+        margin-bottom: 0;
+      }
+
+      .products-details {
+        display: block;
+        padding: 14px 16px;
+
+        .actions {
+          position: absolute;
+          right: 0;
+
+          button {
+            width: 100px;
+          }
+        }
+      }
+    }
+  }
+
+
+  .products a:hover:not(.active) {
+    background-color: #111;
+  }
+
+  .active {
+    background-color: #04AA6D;
   }
 </style>
