@@ -6,7 +6,8 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
@@ -23,6 +24,7 @@
     "foundation-sites": "^6.6.3",
     "node-sass": "^6.0.0",
     "prettier": "^2.2.1",
+    "push-dir": "^0.4.1",
     "sass": "^1.32.12",
     "sass-loader": "^10.2.0",
     "sweetalert2": "^11.0.16",
